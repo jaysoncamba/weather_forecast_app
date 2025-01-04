@@ -23,6 +23,26 @@
   </head>
 
   <body>
-    <%= yield %>
+    <header class="bg-primary text-white py-3">
+      <div class="container">
+        <h1 class="h3">Weather Forecast</h1>
+      </div>
+    </header>
+
+    <div class="container my-5">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+
+    <footer class="bg-dark text-white py-3">
+      <div class="container text-center">
+        <p class="mb-0">&copy; <%= Time.now.year %> My Rails App</p>
+      </div>
+    </footer>
   </body>
 </html>
+
+

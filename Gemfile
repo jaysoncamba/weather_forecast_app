@@ -59,3 +59,4 @@ end
 gem "importmap-rails"
 gem "turbo-rails"
 gem "stimulus-rails"
+gem 'geocoder'
