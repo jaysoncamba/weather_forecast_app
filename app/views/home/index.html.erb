@@ -1,23 +1,47 @@
 <h2 class="text-center">Welcome to My Rails App</h2>
 <p class="text-center">Start typing a location below to search:</p>
 
-<div class="container">
+<div class="container" data-controller="search">
   <div class="row justify-content-center">
-    <div class="col-md-8" data-controller="search">
-      <div id="selected-tags" class="mb-3">
-      </div>
+    <div class="col-md-8">
+      <div id="selected-tags" class="mb-3"></div>
 
-      <div class="form-group position-relative">
-        <label for="location_search" class="form-label">Search for a location</label>
-        <input type="text" id="location_search" class="form-control"  data-search-target="input" data-action="input->search#search" placeholder="Type a location">
+      <!-- Form group with flexbox layout -->
+      <div class="form-group d-flex align-items-center position-relative">
+        <input type="text" id="location_search" class="form-control flex-grow-1" data-search-target="input" placeholder="Type a location">
         
+        <button class="btn btn-primary ms-2" data-action="click->search#search">Search</button>
+
         <div class="position-absolute top-50 end-0 translate-middle-y me-3" data-search-target="spinner" style="display: none;">
           <div class="spinner-border spinner-border-sm text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
-        
+
         <ul class="list-group position-absolute w-100 mt-1" data-search-target="suggestions" style="max-height: 300px; overflow-y: auto;"></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+      <h4 class="text-center">Weather Forecast</h4>
+      <table class="table table-striped" data-search-target="forecastTable">
+        <thead>
+          <tr>
+            <th scope="col">Location</th>
+            <th scope="col">Temperature (°C)</th>
+            <th scope="col">Weather</th>
+            <th scope="col">Wind Speed (km/h)</th>
+            <th scope="col">Remarks</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+
+      <div class="alert alert-warning mt-3" data-search-target="forecastMessage" style="display: none;">
+        <!-- Error or helpful message will be shown here -->
       </div>
     </div>
   </div>

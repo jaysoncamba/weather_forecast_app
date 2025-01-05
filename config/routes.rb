@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
   root "home#index"
-  get 'locations/search', to: 'locations#search'
+  get 'locations/search'
+  post 'locations/forecast'
 end
