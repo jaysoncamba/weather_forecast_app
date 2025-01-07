@@ -1,4 +1,32 @@
 class Forecast::OpenMeteo < Forecast::Base
+  # Constants for weather codes and wind direction ranges
+  WEATHER_CODES = {
+    1 => "Clear sky",
+    2 => "Partly cloudy",
+    3 => "Cloudy",
+    4 => "Overcast",
+    5 => "Showers",
+    6 => "Rain",
+    7 => "Snow",
+    8 => "Thunderstorm",
+    9 => "Other"
+  }.freeze
+
+  WIND_DIRECTION_RANGES = {
+    north: 0..22,
+    north_east: 23..67,
+    east: 68..112,
+    south_east: 113..157,
+    south: 158..202,
+    south_west: 203..247,
+    west: 248..292,
+    north_west: 293..337
+  }.freeze
+
+  UNKNOWN_WIND_DIRECTION = "Unknown".freeze
+  UNKNOWN_WEATHER = "Unknown weather".freeze
+  BASE_URL = 'https://api.open-meteo.com/v1/forecast'.freeze
+
   def initialize(latitude:, longitude:)
     params = {
       latitude: latitude,
@@ -25,66 +53,25 @@ class Forecast::OpenMeteo < Forecast::Base
   end
 
   def map_weather_code(code)
-    case code
-    when 1
-      "Clear sky"
-    when 2
-      "Partly cloudy"
-    when 3
-      "Cloudy"
-    when 4
-      "Overcast"
-    when 5
-      "Showers"
-    when 6
-      "Rain"
-    when 7
-      "Snow"
-    when 8
-      "Thunderstorm"
-    when 9
-      "Other"
-    else
-      "Unknown weather"
-    end
+    WEATHER_CODES[code] || UNKNOWN_WEATHER
   end
 
-  # Format the forecast into a readable message
   def format_forecast(temperature, windspeed, winddirection, weather_description)
     time_of_day = (Time.now.hour < 18) ? "day" : "night"
 
-    # Format the wind direction to a cardinal direction (optional)
     wind_direction_cardinal = wind_direction_to_cardinal(winddirection)
 
-    # Construct a readable message
     "Current temperature is #{temperature}°C, with #{weather_description}. The wind is blowing at #{windspeed} km/h from the #{wind_direction_cardinal}."
   end
 
-  # Convert wind direction (in degrees) to a cardinal direction
   def wind_direction_to_cardinal(degrees)
-    case degrees
-    when 0..22
-      "North"
-    when 23..67
-      "North-East"
-    when 68..112
-      "East"
-    when 113..157
-      "South-East"
-    when 158..202
-      "South"
-    when 203..247
-      "South-West"
-    when 248..292
-      "West"
-    when 293..337
-      "North-West"
-    else
-      "Unknown"
+    WIND_DIRECTION_RANGES.each do |direction, range|
+      return direction.to_s.split('_').map(&:capitalize).join(' ') if range.include?(degrees)
     end
+    UNKNOWN_WIND_DIRECTION
   end
 
   def base_url
-    'https://api.open-meteo.com/v1/forecast'
+    BASE_URL
   end
 end

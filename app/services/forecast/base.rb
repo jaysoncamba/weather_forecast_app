@@ -1,5 +1,4 @@
 class Forecast::Base
-  include HTTParty
 
   attr_reader :params, :forecast_data
 
@@ -17,7 +16,7 @@ class Forecast::Base
     return @forecast_data if forecast_data
     url = "#{base_url}#{@endpoint}"
     Rails.logger.debug("Fetching data from #{url} with params #{@params}")
-    response = self.class.get(url, query: @params)
+    response = HTTParty.get(url, query: @params)
     
     Rails.logger.debug("Response: #{response.body}")
     @forecast_data = parse_response(response)

@@ -39,10 +39,8 @@ export default class extends Controller {
         li.textContent = suggestion.display_name
         li.classList.add("list-group-item", "list-group-item-action", "cursor-pointer")
         
-        // Event listener to populate input with selected suggestion
         li.addEventListener("click", () => {
-          this.addTag(suggestion)
-          this.removeSuggestion(suggestion)  // Remove the selected suggestion from the list
+          this.fetchWeatherForecast(suggestion)
           this.closeSuggestions()
         })
 
@@ -53,58 +51,6 @@ export default class extends Controller {
       // Clear suggestions if query is too short
       this.suggestionsTarget.innerHTML = ""
     }
-  }
-
-  // Add a selected tag
-  addTag(suggestion) {
-    // Don't add duplicate tags
-    if (!this.selectedTags.includes(suggestion)) {
-      this.selectedTags.push(suggestion)
-      this.updateSelectedTagsDisplay()
-      // Fetch weather forecast after adding a tag
-      this.fetchWeatherForecast(suggestion)
-    }
-  }
-
-  // Remove a tag
-  removeTag(suggestion) {
-    this.selectedTags = this.selectedTags.filter(tag => tag !== suggestion)
-    this.updateSelectedTagsDisplay()
-  }
-
-  // Update the display of selected tags
-  updateSelectedTagsDisplay() {
-    const selectedTagsContainer = document.getElementById("selected-tags")
-    selectedTagsContainer.innerHTML = ""
-
-    this.selectedTags.forEach(tag => {
-      const badge = document.createElement("span")
-      badge.classList.add("badge", "bg-primary", "me-2", "mb-2", "pe-4", "position-relative")
-
-      // Tag text
-      badge.textContent = tag.display_name
-
-      // Remove button inside the badge
-      const removeButton = document.createElement("button")
-      removeButton.classList.add("btn-close", "btn-close-white", "position-absolute", "top-0", "end-0")
-      removeButton.addEventListener("click", () => {
-        this.removeTag(tag)
-      })
-
-      // Append remove button and badge to the selected tags container
-      badge.appendChild(removeButton)
-      selectedTagsContainer.appendChild(badge)
-    })
-  }
-
-  // Remove the selected suggestion from the dropdown
-  removeSuggestion(suggestion) {
-    const suggestionItems = this.suggestionsTarget.querySelectorAll("li")
-    suggestionItems.forEach(item => {
-      if (item.textContent === suggestion.display_name) {
-        item.remove()  // Remove the suggestion from the list
-      }
-    })
   }
 
   closeSuggestions() {

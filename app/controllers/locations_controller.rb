@@ -7,6 +7,10 @@ class LocationsController < ApplicationController
   end
 
   def forecast
+    if location_params[:latitude].blank? || location_params[:longitude].blank?
+      render json: { error: "Latitude and Longitude can't be blank" }, status: :unprocessable_entity
+      return
+    end
     @location_forecast = LocationForecast.find_or_initialize_by(location_params)
     if @location_forecast.new_record?
       @location_forecast.update(forecast: Forecast::OpenMeteo.new(latitude: location_params[:latitude], longitude: location_params[:longitude]).fetch_forecast)
