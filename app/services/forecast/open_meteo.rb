@@ -25,7 +25,7 @@ class Forecast::OpenMeteo < Forecast::Base
 
   UNKNOWN_WIND_DIRECTION = "Unknown".freeze
   UNKNOWN_WEATHER = "Unknown weather".freeze
-  BASE_URL = 'https://api.open-meteo.com/v1/forecast'.freeze
+  BASE_URL = "https://api.open-meteo.com/v1/forecast".freeze
 
   def initialize(latitude:, longitude:)
     params = {
@@ -33,12 +33,12 @@ class Forecast::OpenMeteo < Forecast::Base
       longitude: longitude,
       current_weather: true
     }
-    super(endpoint: '', params: params)
+    super(endpoint: "", params: params)
   end
 
   def fetch_forecast
     fetch_data
-    return { error: "Unable to fetch forecast data" } if @forecast_data['current_weather'].nil?
+    return { error: "Unable to fetch forecast data" } if @forecast_data["current_weather"].nil?
 
     temperature = @forecast_data["current_weather"]["temperature"]
     wind_speed = @forecast_data["current_weather"]["windspeed"]
@@ -66,7 +66,7 @@ class Forecast::OpenMeteo < Forecast::Base
 
   def wind_direction_to_cardinal(degrees)
     WIND_DIRECTION_RANGES.each do |direction, range|
-      return direction.to_s.split('_').map(&:capitalize).join(' ') if range.include?(degrees)
+      return direction.to_s.split("_").map(&:capitalize).join(" ") if range.include?(degrees)
     end
     UNKNOWN_WIND_DIRECTION
   end

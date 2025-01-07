@@ -54,12 +54,15 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-  gem 'webmock'
-  gem 'minitest'
+  gem "webmock"
+  gem "minitest"
 end
 
 gem "importmap-rails"
 gem "turbo-rails"
 gem "stimulus-rails"
-gem 'geocoder'
-gem 'httparty'
+gem "geocoder"
+gem "httparty"
+
+gem "rubocop", require: false
+gem "rubocop-rails", require: false

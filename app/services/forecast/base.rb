@@ -1,5 +1,4 @@
 class Forecast::Base
-
   attr_reader :params, :forecast_data
 
   HEADERS = {
@@ -9,7 +8,7 @@ class Forecast::Base
   def initialize(endpoint:, params: {})
     @endpoint = endpoint
     @params = params.freeze
-    @forecast_data = nil 
+    @forecast_data = nil
   end
 
   def fetch_data
@@ -17,7 +16,7 @@ class Forecast::Base
     url = "#{base_url}#{@endpoint}"
     Rails.logger.debug("Fetching data from #{url} with params #{@params}")
     response = HTTParty.get(url, query: @params)
-    
+
     Rails.logger.debug("Response: #{response.body}")
     @forecast_data = parse_response(response)
   end

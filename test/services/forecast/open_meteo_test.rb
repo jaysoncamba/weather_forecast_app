@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'webmock/minitest'
+require "test_helper"
+require "webmock/minitest"
 
 class Forecast::OpenMeteoTest < ActiveSupport::TestCase
   def setup
@@ -22,7 +22,7 @@ class Forecast::OpenMeteoTest < ActiveSupport::TestCase
             "weathercode" => 1
           }
         }.to_json,
-        headers: { 'Content-Type' => 'application/json' }
+        headers: { "Content-Type" => "application/json" }
       )
 
     forecast = @forecast_service.fetch_forecast
@@ -40,7 +40,7 @@ class Forecast::OpenMeteoTest < ActiveSupport::TestCase
       .to_return(
         status: 200,
         body: {}.to_json,
-        headers: { 'Content-Type' => 'application/json' }
+        headers: { "Content-Type" => "application/json" }
       )
 
     forecast = @forecast_service.fetch_forecast
